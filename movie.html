@@ -9,14 +9,14 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <nav class="navbar navbar-default">
+    <nav class="navbar navbar-default fixed-top">
         <div class="container">
             <div class="navbar-header">
-                <a href="index.html" class="navbar-brand">theMovieApp</a>
+                <a href="index.html" class="navbar-brand" onclick="clearSession()">the<i class="text-danger">M</i>ovie<i class="text-danger">A</i>pp</a>
             </div>
         </div>
     </nav>
-    <hr />
+    <hr class="topline">
     <div class="container">
         <div id="movie" class="well"></div>
     </div>
@@ -29,7 +29,12 @@
     <!--script src="js/bootstrap.min.js"></script-->
     <script src="js/main.js"></script>
     <script>
-        getMovie();
+        let searchText = sessionStorage.getItem('searchText');
+        if(searchText){
+            getMovie();
+        }else{
+            getMovieSelected();
+        }
     </script>
 </body>
 </html>

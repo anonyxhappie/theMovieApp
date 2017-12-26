@@ -2,6 +2,21 @@
     width: 100%;
 }
 
+#topLine{
+    margin-top: 60px;
+}
+
+.navbar{
+    background: #fff;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+}
+
+.topline{
+    margin-top: 60px;
+    border: 1px solid #fff;
+}
+
 @media(min-width: 960px){
     #movies .col-md-3 .well{
         height: 420px;

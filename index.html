@@ -9,14 +9,14 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <nav class="navbar navbar-default">
+    <nav class="navbar navbar-default fixed-top">
         <div class="container">
             <div class="navbar-header">
-                <a href="index.html" class="navbar-brand">theMovieApp</a>
+                <a href="index.html" class="navbar-brand" onclick="clearSession()">the<i class="text-danger">M</i>ovie<i class="text-danger">A</i>pp</a>
             </div>
         </div>
     </nav>
-    <hr />
+    <hr class="topline">
     <div class="container">
         <div class="jumbotron">
             <h3 class="text-center">Search For Any Movie</h3>
@@ -30,6 +30,10 @@
         </div>
     </div>
     <div class="container">
+        <div class="text-center" id="latestText">
+            <h2>Latest Movies</h2>
+            <hr>
+        </div>
         <div id="movies" class="row"></div>
     </div>
 
@@ -43,8 +47,11 @@
     <script>
         let searchText = sessionStorage.getItem('searchText');
         if(searchText){
-            document.getElementById('searchText').value = searchText;
+            //document.getElementById('searchText').value = searchText;
+            $('#searchText').val(searchText);
             getMovies(searchText);
+        }else{
+            getNowPlaying();
         }
     </script>
 </body>
