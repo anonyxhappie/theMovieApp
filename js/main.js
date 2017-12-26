@@ -15,6 +15,8 @@ function getMovies(searchText){
         let output = '';
         $.each( movies, (index, movie) => {
             //console.log(movie.Poster);
+            if(movie.Poster == "N/A") 
+                movie.Poster = "img/image-error.png";
             output += `
                 <div class="col-md-3">
                     <div class="well text-center">
@@ -44,6 +46,8 @@ function getMovie(){
     .then((response) => {
         console.log(response);
         let movie = response.data;
+        if(movie.Poster == "N/A") 
+            movie.Poster = "img/image-error.png";
         let output = `
             <div class="row">
                 <div class="col-md-4">
