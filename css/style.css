@@ -1,9 +1,24 @@
-#movies img, #movie img{
-    width: 100%;
+.moviebox{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
 }
 
-#topLine{
-    margin-top: 60px;
+.moviebox > div{
+    background: #eee;
+    opacity: 0.7;
+    transition: all 1s ease-in-out;
+}
+
+.moviebox > div:hover{
+    cursor: pointer;
+    opacity: 1;
+    transition: all 0.5s ease-in-out;
+    z-index: 1;
+}
+
+.moviebox > div > img, #movie img{
+    width: 100%;
+    height: 100%;
 }
 
 .navbar{
@@ -18,11 +33,5 @@
 }
 
 @media(min-width: 960px){
-    #movies .col-md-3 .well{
-        height: 420px;
-    } 
-
-    #movies .col-md-3 img{
-        height: 300px;
-    } 
+    
 }

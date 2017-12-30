@@ -1,4 +1,8 @@
 $(document).ready(() => {
+    $('img').hover(function(){
+        $(this).toggleClass("animated pulse")
+    });
+
     $('#searchForm').on('submit', (e) => {
         let searchText = $('#searchText').val();
         sessionStorage.setItem('searchText', searchText);
@@ -19,12 +23,8 @@ function getMovies(searchText){
             if(movie.Poster == "N/A") 
                 movie.Poster = "img/image-error.png";
             output += `
-                <div class="col-md-3">
-                    <div class="well text-center">
-                        <img src="${movie.Poster}" />
-                        <h5>${movie.Title}</h5>
-                        <a onclick="movieSelected('${movie.imdbID}')" class="btn btn-primary" href="#">Movie Details</a>
-                    </div>
+                <div class="animated rotateIn">
+                    <img onclick="movieSelected('${movie.imdbID}')" src="${movie.Poster}" />
                 </div>
             `;
         });
@@ -94,12 +94,8 @@ function getNowPlaying(){
         let output = '';
         $.each( movies, (index, movie) => {    
             output += `
-                <div class="col-md-3">
-                    <div class="well text-center">
-                        <img src="${'http://image.tmdb.org/t/p/w185' + movie.poster_path}" />
-                        <h5>${movie.original_title}</h5>
-                        <a onclick="movieSelected('${movie.id}')" class="btn btn-primary" href="#">Movie Details</a>
-                    </div>
+                <div class="animated rotateIn">
+                    <img onclick="movieSelected('${movie.id}')" src="${'http://image.tmdb.org/t/p/w185' + movie.poster_path}" />
                 </div>
             `;
         });
