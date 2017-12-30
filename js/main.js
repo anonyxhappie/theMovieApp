@@ -1,8 +1,6 @@
-$(document).ready(() => {
-    $('img').hover(function(){
-        $(this).toggleClass("animated pulse")
-    });
+$('img').hover().toggleClass("animated pulse"); 
 
+$(document).ready(() => {
     $('#searchForm').on('submit', (e) => {
         let searchText = $('#searchText').val();
         sessionStorage.setItem('searchText', searchText);
@@ -145,11 +143,34 @@ function getMovieSelected(){
             </div>
         `;
         $('#movie').html(output);
+        getRecommended();
     })
     .catch((err) => {
         console.log(err);
     });
 }
+
+function getRecommended(){
+    let movieId = sessionStorage.getItem('movieId');
+    axios.get('https://api.themoviedb.org/3/movie/' + movieId + '/recommendations?api_key=3a6b37f95c6a73b59ec674e0c91b2156&language=en-US&page=1')
+    .then((response) => {
+        console.log(response);
+        let movies = response.data.results;
+        let output = '';
+        $.each( movies, (index, movie) => {    
+            output += `
+                <div class="animated rotateIn">
+                    <img onclick="movieSelected('${movie.id}')" src="${'http://image.tmdb.org/t/p/w185' + movie.poster_path}" />
+                </div>
+            `;
+        });
+        $('#recommendedMovies').html(output);
+    })
+    .catch((err) => {
+        console.log(err);
+    });
+}
+
 
 function clearSession(){
     sessionStorage.clear();
