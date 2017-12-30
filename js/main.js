@@ -1,16 +1,61 @@
 $('img').hover().toggleClass("animated pulse"); 
-
+/**
+ * For index.html
+ */
 $(document).ready(() => {
+    getLatestMovies();
+    getTopRatedMovies();
+    
     $('#searchForm').on('submit', (e) => {
         let searchText = $('#searchText').val();
         sessionStorage.setItem('searchText', searchText);
-        getMovies(searchText);
+        getSearchMovies(searchText);
         e.preventDefault();
     });
 });
 
-function getMovies(searchText){
-    $('#latestText').css('display', 'none');
+function getLatestMovies(){
+    axios.get('https://api.themoviedb.org/3/movie/now_playing?api_key=3a6b37f95c6a73b59ec674e0c91b2156&language=en-US&page=1')
+    .then((response) => {
+        console.log(response);
+        let movies = response.data.results;
+        let output = '';
+        $.each( movies, (index, movie) => {    
+            output += `
+                <div class="animated rotateIn">
+                    <img onclick="movieSelected('${movie.id}')" src="${'http://image.tmdb.org/t/p/w185' + movie.poster_path}" />
+                </div>
+            `;
+        });
+        $('#latestMovies').html(output);
+    })
+    .catch((err) => {
+        console.log(err);
+    });
+}
+
+function getTopRatedMovies(){
+    axios.get('https://api.themoviedb.org/3/movie/top_rated?api_key=3a6b37f95c6a73b59ec674e0c91b2156&language=en-US&page=1')
+    .then((response) => {
+        console.log(response);
+        let movies = response.data.results;
+        let output = '';
+        $.each( movies, (index, movie) => {    
+            output += `
+                <div class="animated rotateIn">
+                    <img onclick="movieSelected('${movie.id}')" src="${'http://image.tmdb.org/t/p/w185' + movie.poster_path}" />
+                </div>
+            `;
+        });
+        $('#topRatedMovies').html(output);
+    })
+    .catch((err) => {
+        console.log(err);
+    });
+}
+
+function getSearchMovies(searchText){
+    $('.textHeading').css('display', 'none');
     axios.get('http://www.omdbapi.com?s='+searchText+'&apikey=b3d8145e')
     .then((response) => {
         console.log(response);
@@ -26,7 +71,7 @@ function getMovies(searchText){
                 </div>
             `;
         });
-        $('#movies').html(output);
+        $('#searchMovies').html(output);
     })
     .catch((err) => {
         console.log(err);
@@ -38,6 +83,9 @@ function movieSelected(id){
     window.location = 'movie.html';
     return false;
 }
+/**
+ * For movies.html
+ */
 
 function getMovie(){
     let movieId = sessionStorage.getItem('movieId');
@@ -84,27 +132,7 @@ function getMovie(){
     });
 }
 
-function getNowPlaying(){
-    axios.get('https://api.themoviedb.org/3/movie/now_playing?api_key=3a6b37f95c6a73b59ec674e0c91b2156&language=en-US&page=1')
-    .then((response) => {
-        console.log(response);
-        let movies = response.data.results;
-        let output = '';
-        $.each( movies, (index, movie) => {    
-            output += `
-                <div class="animated rotateIn">
-                    <img onclick="movieSelected('${movie.id}')" src="${'http://image.tmdb.org/t/p/w185' + movie.poster_path}" />
-                </div>
-            `;
-        });
-        $('#movies').html(output);
-    })
-    .catch((err) => {
-        console.log(err);
-    });
-}
-
-function getMovieSelected(){
+ function getMovieSelected(){
     let movieId = sessionStorage.getItem('movieId');
     axios.get('https://api.themoviedb.org/3/movie/'+ movieId +'?api_key=3a6b37f95c6a73b59ec674e0c91b2156&language=en-US&page=1')
     .then((response) => {
@@ -143,14 +171,14 @@ function getMovieSelected(){
             </div>
         `;
         $('#movie').html(output);
-        getRecommended();
+        getRecommendedMovies();
     })
     .catch((err) => {
         console.log(err);
     });
 }
 
-function getRecommended(){
+function getRecommendedMovies(){
     let movieId = sessionStorage.getItem('movieId');
     axios.get('https://api.themoviedb.org/3/movie/' + movieId + '/recommendations?api_key=3a6b37f95c6a73b59ec674e0c91b2156&language=en-US&page=1')
     .then((response) => {
@@ -170,7 +198,6 @@ function getRecommended(){
         console.log(err);
     });
 }
-
 
 function clearSession(){
     sessionStorage.clear();
