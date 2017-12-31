@@ -38,12 +38,8 @@
     <!--script src="js/bootstrap.min.js"></script-->
     <script src="js/main.js"></script>
     <script>
-        let searchText = sessionStorage.getItem('searchText');
-        if(searchText){
-            getMovie();
-        }else{
-            getMovieSelected();
-        }
+        getMovieSelected();
+        getMovies('recommended', 'default');
     </script>
 </body>
 </html>

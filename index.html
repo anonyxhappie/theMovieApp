@@ -57,11 +57,8 @@
     <script>
         let searchText = sessionStorage.getItem('searchText');
         if(searchText){
-            //document.getElementById('searchText').value = searchText;
             $('#searchText').val(searchText);
-            getMovies(searchText);
-        }else{
-            getNowPlaying();
+            getMovies('search', searchText);
         }
     </script>
 </body>
