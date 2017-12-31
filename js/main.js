@@ -8,8 +8,8 @@ $('img').hover(
  * For index.html
  */
 $(document).ready(() => {
-    getMovies('now_playing', 'default');
-    getMovies('top_rated', 'default');
+    getMovies('now_playing');
+    getMovies('top_rated');
     $('#searchForm').on('submit', (e) => {
         let searchText = $('#searchText').val();
         sessionStorage.setItem('searchText', searchText);
@@ -18,28 +18,29 @@ $(document).ready(() => {
     });
 });
 
-function getMovies(keyword, searchText){
-    let url = '', id = '';
+function getMovies(keyword, searchText = ''){
+    let BASEURL = 'https://api.themoviedb.org/3/';
+    let movieUrl = BASEURL + 'movie/', id = '', apiString = '?api_key=3a6b37f95c6a73b59ec674e0c91b2156&language=en-US&page=1';
     let movieId = sessionStorage.getItem('movieId');
     if(keyword == 'now_playing'){
-        url = 'https://api.themoviedb.org/3/movie/now_playing?api_key=3a6b37f95c6a73b59ec674e0c91b2156&language=en-US&page=1';
+        movieUrl += keyword + apiString;
         id = '#latestMovies';
     }else if(keyword == 'top_rated'){
-        url = 'https://api.themoviedb.org/3/movie/top_rated?api_key=3a6b37f95c6a73b59ec674e0c91b2156&language=en-US&page=1';
+        movieUrl += keyword + apiString;
         id = '#topRatedMovies';
-    }else if(keyword == 'recommended'){
-        url = 'https://api.themoviedb.org/3/movie/' + movieId + '/recommendations?api_key=3a6b37f95c6a73b59ec674e0c91b2156&language=en-US&page=1';
+    }else if(keyword == 'recommendations'){
+        movieUrl += movieId + '/' + keyword + apiString;
         id = '#recommendedMovies';
     }else if(keyword == 'search'){
         $('.textHeading').css('display', 'none');
         $('#latestMovies').css('display', 'none');
         $('#topRatedMovies').css('display', 'none');
-        url = 'https://api.themoviedb.org/3/search/movie?api_key=3a6b37f95c6a73b59ec674e0c91b2156&language=en-US&page=1&include_adult=false&query=' + searchText;
+        movieUrl = BASEURL + keyword + '/movie'+ apiString +'&query=' + searchText;
         id = '#searchMovies';
     }else{
         return false;
     }
-    axios.get(url)
+    axios.get(movieUrl)
     .then((response) => {
         console.log(response);
         let movies = response.data.results;
