@@ -1,2 +1,2 @@
 # theMovieApp
-A ML based Web App for Movie Details
+Web App for Movie Details including features like Search, Recommendations, Latest & Top Rated Movies.
